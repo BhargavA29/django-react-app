@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Toaster } from "@/components/ui/toaster";
 import axios from '@/lib/axios';
-import { setCredentials, clearCredentials } from '@/features/auth/authSlice';
+import { setCredentials, logout } from '@/features/auth/authSlice';
 
-// Pages
 import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
 import DashboardPage from '@/pages/DashboardPage';
@@ -15,19 +14,32 @@ import AdminPage from '@/pages/AdminPage';
 
 function App() {
   const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await axios.get('auth/profile/');
-        dispatch(setCredentials(response.data));
-      } catch (error) {
-        dispatch(clearCredentials());
+    const initializeAuth = async () => {
+      const token = localStorage.getItem('token');
+      const user = localStorage.getItem('user');
+
+      if (token && user) {
+        try {
+          // Verify token is still valid
+          const response = await axios.get('auth/profile/');
+          dispatch(setCredentials({
+            user: response.data,
+            token: token
+          }));
+        } catch (error) {
+          console.error('Auth initialization error:', error);
+          dispatch(logout());
+        }
       }
     };
 
-    checkAuth();
-  }, [dispatch]);
+    if (!isAuthenticated) {
+      initializeAuth();
+    }
+  }, [dispatch, isAuthenticated]);
 
   return (
     <Router>
@@ -54,7 +66,7 @@ function App() {
           <Route
             path="/admin"
             element={
-              <ProtectedRoute allowedRoles={['SUPERADMIN']}>
+              <ProtectedRoute>
                 <AdminPage />
               </ProtectedRoute>
             }
