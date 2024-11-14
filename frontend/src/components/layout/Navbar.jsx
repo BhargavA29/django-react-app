@@ -2,19 +2,8 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from '@/lib/axios';
-import { logout } from '@/features/auth/authSlice';
-import { useToast } from '@/components/ui/use-toast';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { clearCredentials } from '@/features/auth/authSlice';
+import { useToast } from '@/hooks/useToast';
 
 const Navbar = () => {
     const { user } = useSelector(state => state.auth);
@@ -25,7 +14,7 @@ const Navbar = () => {
     const handleLogout = async () => {
         try {
             await axios.post('auth/logout/');
-            dispatch(logout());
+            dispatch(clearCredentials());
             toast({
                 title: "Success",
                 description: "Logged out successfully",
@@ -66,27 +55,12 @@ const Navbar = () => {
                                 >
                                     Profile
                                 </Link>
-                                <AlertDialog>
-                                    <AlertDialogTrigger asChild>
-                                        <button className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                                            Logout
-                                        </button>
-                                    </AlertDialogTrigger>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader>
-                                            <AlertDialogTitle>Are you sure you want to logout?</AlertDialogTitle>
-                                            <AlertDialogDescription>
-                                                You will need to login again to access your account.
-                                            </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter>
-                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                            <AlertDialogAction onClick={handleLogout}>
-                                                Logout
-                                            </AlertDialogAction>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
+                                <button
+                                    onClick={handleLogout}
+                                    className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                >
+                                    Logout
+                                </button>
                             </div>
                         </div>
                     </div>

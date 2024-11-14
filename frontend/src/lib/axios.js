@@ -1,34 +1,52 @@
 import axios from 'axios';
-import { store } from '@/app/store';
-import { logout } from '@/features/auth/authSlice';
 
 const axiosInstance = axios.create({
-    baseURL: process.env.NODE_ENV === 'production'
-        ? 'http://3.109.206.96/api/'  // Production API URL
-        : 'http://localhost:8000/api/', // Development API URL
+    baseURL: 'http://localhost:8000/api/',
     headers: {
         'Content-Type': 'application/json',
-    }
+        'X-Requested-With': 'XMLHttpRequest',
+    },
 });
 
+// Function to get CSRF cookie value
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Add request interceptor to handle CSRF token
 axiosInstance.interceptors.request.use(
-    config => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+    async config => {
+        // Only get CSRF token for non-GET requests
+        if (config.method !== 'get') {
+            try {
+                // Get CSRF token before the actual request
+                await axios.get('http://localhost:8000/api/auth/csrf/', { withCredentials: true });
+
+                // Get the CSRF token from cookies
+                const csrfToken = getCookie('csrftoken');
+
+                // Set the CSRF token in the header
+                if (csrfToken) {
+                    config.headers['X-CSRFToken'] = csrfToken;
+                }
+            } catch (error) {
+                console.error('Error fetching CSRF token:', error);
+            }
         }
         return config;
     },
-    error => Promise.reject(error)
-);
-
-axiosInstance.interceptors.response.use(
-    response => response,
     error => {
-        if (error.response?.status === 401 || error.response?.status === 403) {
-            store.dispatch(logout());
-            window.location.href = '/login';
-        }
         return Promise.reject(error);
     }
 );

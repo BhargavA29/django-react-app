@@ -6,18 +6,8 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = (
-            'id', 
-            'username', 
-            'email', 
-            'first_name', 
-            'last_name', 
-            'mobile', 
-            'address', 
-            'role',
-            'is_active'
-        )
-        read_only_fields = ('id', 'username', 'role', 'is_active')
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'role', 'mobile', 'address', 'is_active')
+        read_only_fields = ('id', 'role', 'is_active')
 
     def update(self, instance, validated_data):
         # Update user fields
