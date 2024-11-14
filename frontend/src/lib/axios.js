@@ -3,7 +3,9 @@ import { store } from '@/app/store';
 import { logout } from '@/features/auth/authSlice';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000/api/',
+    baseURL: process.env.NODE_ENV === 'production'
+        ? 'http://3.109.206.96/api/'  // Production API URL
+        : 'http://localhost:8000/api/', // Development API URL
     headers: {
         'Content-Type': 'application/json',
     }
