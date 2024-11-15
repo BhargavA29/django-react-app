@@ -45,7 +45,7 @@ const LoginForm = () => {
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="username" className="block text-sm font-medium text-white">
                     Username
                 </label>
                 <input
@@ -59,7 +59,7 @@ const LoginForm = () => {
                 />
             </div>
             <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="password" className="block text-sm font-medium text-white">
                     Password
                 </label>
                 <input
@@ -81,7 +81,7 @@ const LoginForm = () => {
                     onChange={handleChange}
                     className="h-4 w-4 rounded border-gray-300 text-indigo-600"
                 />
-                <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-900">
+                <label htmlFor="remember_me" className="ml-2 block text-sm text-white">
                     Remember me
                 </label>
             </div>

@@ -12,6 +12,7 @@ import DashboardPage from '@/pages/DashboardPage';
 import ProfilePage from '@/pages/ProfilePage';
 import ProtectedRoute from '@/features/auth/ProtectedRoute';
 import AdminPage from '@/pages/AdminPage';
+import UnauthorizedPage from '@/pages/UnauthorizedPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Routes>
         <Toaster />

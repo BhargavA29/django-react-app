@@ -46,7 +46,7 @@ const RegisterForm = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
                 <div>
-                    <label htmlFor="username" className="block text-sm font-medium">
+                    <label htmlFor="username" className="block text-sm text-white font-medium">
                         Username
                     </label>
                     <input
@@ -60,7 +60,7 @@ const RegisterForm = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="email" className="block text-sm font-medium">
+                    <label htmlFor="email" className="block text-sm font-medium text-white">
                         Email
                     </label>
                     <input
@@ -75,7 +75,7 @@ const RegisterForm = () => {
                 </div>
             </div>
             <div>
-                <label htmlFor="password" className="block text-sm font-medium">
+                <label htmlFor="password" className="block text-sm font-medium text-white">
                     Password
                 </label>
                 <input
@@ -90,7 +90,7 @@ const RegisterForm = () => {
             </div>
             <div className="grid grid-cols-2 gap-4">
                 <div>
-                    <label htmlFor="first_name" className="block text-sm font-medium">
+                    <label htmlFor="first_name" className="block text-sm font-medium text-white">
                         First Name
                     </label>
                     <input
@@ -103,7 +103,7 @@ const RegisterForm = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="last_name" className="block text-sm font-medium">
+                    <label htmlFor="last_name" className="block text-sm font-medium text-white">
                         Last Name
                     </label>
                     <input
@@ -117,7 +117,7 @@ const RegisterForm = () => {
                 </div>
             </div>
             <div>
-                <label htmlFor="mobile" className="block text-sm font-medium">
+                <label htmlFor="mobile" className="block text-sm font-medium text-white">
                     Mobile (optional)
                 </label>
                 <input
@@ -130,7 +130,7 @@ const RegisterForm = () => {
                 />
             </div>
             <div>
-                <label htmlFor="address" className="block text-sm font-medium">
+                <label htmlFor="address" className="block text-sm font-medium text-white">
                     Address (optional)
                 </label>
                 <textarea
